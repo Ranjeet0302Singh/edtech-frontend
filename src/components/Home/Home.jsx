@@ -30,7 +30,7 @@ const Home = () => {
         >
           <VStack width={'full'} alignItems={['center', 'flex-end']}>
             <Heading children="Learn from the experts" size={'2xl'} />
-            <Text children="Find Valueable content at Reasonable Price" />
+            <Text textAlign={['center' , 'left']} children="Find Valueable content at Reasonable Price" />
             <Link to="/courses">
               <Button size={'lg'} colorScheme={'yellow'}>
                 Explore Now
@@ -59,7 +59,8 @@ const Home = () => {
       </HStack>
         </Box>
         <div className="container2">
-                 <video autoPlay
+                 <video 
+                //  autoPlay
                  controls
                  controlsList='nodownload nofullscreen noremoteplayback' 
                  disablePictureInPicture
