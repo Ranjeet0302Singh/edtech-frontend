@@ -60,7 +60,7 @@ const Login = () => {
               <Button colorScheme="yellow" variant={'link'}>
                 {' '}
                 Sign Up
-              </Button>{" "}
+              </Button>{' '}
               here
             </Link>
           </Box>

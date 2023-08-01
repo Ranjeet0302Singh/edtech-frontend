@@ -60,23 +60,28 @@ const Course = ({
         textTransform="uppercase"
       />
 
-    <Stack direction={['column','row']}alignItems={'center'}  >
+      <Stack direction={['column', 'row']} alignItems={'center'}>
         <Link to={`/course/${id}`}>
-            <Button colorScheme='yellow'> Watch Now</Button>
+          <Button colorScheme="yellow"> Watch Now</Button>
         </Link>
-            <Button colorScheme='yellow' variant={'ghost'} onClick={()=>addToPlaylistHandler(id) }> Add To playlist</Button>
-
-    </Stack>
-
+        <Button
+          colorScheme="yellow"
+          variant={'ghost'}
+          onClick={() => addToPlaylistHandler(id)}
+        >
+          {' '}
+          Add To playlist
+        </Button>
+      </Stack>
     </VStack>
   );
 };
 const Courses = () => {
   const [keyword, setKeyword] = useState('');
-  const [category, setCategory] = useState('');
-  const addToPlaylistHandler = ()=>{
-    console.log("Added to playlist");
-  }
+  // const [category, setCategory] = useState('');
+  const addToPlaylistHandler = () => {
+    console.log('Added to playlist');
+  };
   const categories = [
     'Web Development',
     'Artificial Intelligence',
@@ -97,7 +102,8 @@ const Courses = () => {
 
       <HStack overflowY={'auto'} paddingY="8">
         {categories.map((item, index) => (
-          <Button minW={'60'} key={index} onClick={() => setCategory(item)}>
+          <Button minW={'60'} key={index}>
+            {/* onClick={() => setCategory(item)} */}
             <Text children={item} />
           </Button>
         ))}
@@ -113,7 +119,9 @@ const Courses = () => {
           title={'Sample1'}
           description={'Sample1'}
           views={23}
-          imageSrc={'https://cdn.pixabay.com/photo/2016/08/11/23/48/mountains-1587287_1280.jpg'}
+          imageSrc={
+            'https://cdn.pixabay.com/photo/2016/08/11/23/48/mountains-1587287_1280.jpg'
+          }
           id={'Sample1'}
           creator={'Sample1 Boy'}
           lectureCount={2}
