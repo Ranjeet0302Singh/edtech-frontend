@@ -1,4 +1,4 @@
-import { Box, HStack, Heading, Stack, VStack, color } from '@chakra-ui/react'
+import { Box, HStack, Heading, Stack, VStack } from '@chakra-ui/react'
 import React from 'react'
 
 import{TiSocialYoutubeCircular,TiSocialInstagramCircular} from 'react-icons/ti'

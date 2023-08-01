@@ -15,7 +15,7 @@ import { RiDashboardFill, RiLogoutBoxLine, RiMenuFill } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 const Header = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const isAuthenticated = true;
+  const isAuthenticated = false;
   const user = {
     role: 'admin',
   };
