@@ -92,11 +92,11 @@ const Header = () => {
                 ) : (
                   <>
                     <Link to={'/login'}>
-                      <Button colorScheme="yellow">Login</Button>
+                      <Button colorScheme="yellow" onClick={onClose}>Login</Button>
                     </Link>
                     <p> or </p>
                     <Link to={'/signup'}>
-                      <Button colorScheme="yellow">Sign up</Button>
+                      <Button colorScheme="yellow" onClick={onClose}>Sign up</Button>
                     </Link>
                   </>
                 )}
