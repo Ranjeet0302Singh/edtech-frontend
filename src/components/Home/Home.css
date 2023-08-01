@@ -41,3 +41,14 @@
         width: 100%;
     }
 }
+
+.course{
+    
+    width: 250px;
+    margin:2rem 0 1rem 0 ;
+    transition: all 0.5s;
+}
+
+.course:hover{
+    transform: translateY(-10px);
+}

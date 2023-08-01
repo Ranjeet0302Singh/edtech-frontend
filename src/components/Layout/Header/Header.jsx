@@ -13,15 +13,16 @@ import {
 } from '@chakra-ui/react';
 import { RiDashboardFill, RiLogoutBoxLine, RiMenuFill } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
-const isAuthenticated = true;
-const user = {
-  role: 'admin',
-};
-const logouthandler = () => {
-  console.log('logout');
-};
 const Header = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const isAuthenticated = true;
+  const user = {
+    role: 'admin',
+  };
+  const logouthandler = () => {
+    console.log('logout');
+    onClose();
+  };
   return (
     <div>
       <ColorModeSwitcher />
@@ -44,19 +45,19 @@ const Header = () => {
           <DrawerHeader borderBottomWidth={'1px'}>EdTech</DrawerHeader>
           <DrawerBody>
             <VStack spacing={'4'} alignItems={'flex-start'}>
-              <Link to={'/'}>
+              <Link to={'/'} onClick={onClose}>
                 <Button> Home</Button>
               </Link>
-              <Link to={'/courses'}>
+              <Link to={'/courses'} onClick={onClose}>
                 <Button> Browse All Courses</Button>
               </Link>
-              <Link to={'/request'}>
+              <Link to={'/request'} onClick={onClose}>
                 <Button> Request a Course</Button>
               </Link>
-              <Link to={'/contect'}>
+              <Link to={'/contect'} onClick={onClose}>
                 <Button> Contect</Button>
               </Link>
-              <Link to={'/about'}>
+              <Link to={'/about'} onClick={onClose}>
                 <Button> About</Button>
               </Link>
 
@@ -70,7 +71,7 @@ const Header = () => {
                   <>
                     <VStack>
                       <HStack>
-                        <Link to={'/profile'}>
+                        <Link to={'/profile'} onClick={onClose}>
                           <Button colorScheme="yellow">Profile</Button>
                         </Link>
                         <Button variant={'ghost'} onClick={logouthandler}>
@@ -79,7 +80,7 @@ const Header = () => {
                         </Button>
                       </HStack>
                       {user && user.role === 'admin' && (
-                        <Link to={'/admin/dashboard'}>
+                        <Link to={'/admin/dashboard'} onClick={onClose}>
                           <Button colorScheme="purple" varient="ghost">
                             <RiDashboardFill style={{ margin: '4px' }} />
                             DashBoard
