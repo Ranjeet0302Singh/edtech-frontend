@@ -54,8 +54,8 @@ const Header = () => {
               <Link to={'/request'} onClick={onClose}>
                 <Button> Request a Course</Button>
               </Link>
-              <Link to={'/contect'} onClick={onClose}>
-                <Button> Contect</Button>
+              <Link to={'/contact'} onClick={onClose}>
+                <Button> Contact</Button>
               </Link>
               <Link to={'/about'} onClick={onClose}>
                 <Button> About</Button>
