@@ -31,11 +31,11 @@ const CoursePage = () => {
     },
   ];
   return (
-    <Grid minH={'90vh'} templateColumns={['1fr', '3fr 1fr']} marginTop={'20'}>
+    <Grid minH={'90vh'} templateColumns={['1fr', '3fr 1fr']} mt={'15'} mr={'10'} ml={'10'}>
       <Box >
         <video
           //  autoPlay
-          width={'90%'}
+          width={'100%'}
           controls
           controlsList="nodownload  noremoteplayback"
           disablePictureInPicture
