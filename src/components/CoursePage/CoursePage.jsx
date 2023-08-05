@@ -37,9 +37,10 @@ const CoursePage = () => {
           //  autoPlay
           width={'100%'}
           controls
-          controlsList="nodownload  noremoteplayback"
+          controlsList="nodownload noremoteplayback"
           disablePictureInPicture
           disableRemotePlayback
+
           src={introVideo}
         ></video>
         <Heading
