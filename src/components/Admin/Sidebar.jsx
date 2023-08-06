@@ -11,12 +11,11 @@ import { Link, useLocation } from 'react-router-dom';
 const Sidebar = () => {
   const location = useLocation();
   let active=location.pathname
-  console.log(active);
   return (
     <VStack
       spacing={'8'}
       p={'16'}
-      boxShadow={'-2px 0 10px rgba(107,70,193,0.5'}
+      boxShadow={'-1px 0 10px rgba(107,70,193,0.5)'}
     >
       <Link to={'/admin/dashboard'}>
         <Button fontSize={'large'} variant={'ghost'}   colorScheme={active==='/admin/dashboard' ? "purple":""}>
