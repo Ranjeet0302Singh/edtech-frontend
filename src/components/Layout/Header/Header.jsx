@@ -13,12 +13,15 @@ import {
 } from '@chakra-ui/react';
 import { RiDashboardFill, RiLogoutBoxLine, RiMenuFill } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
-const Header = ( {isAuthenticated=false,user}) => {
+import { logout } from '../../../redux/actions/user';
+import { useDispatch } from 'react-redux';
+const Header = ({ isAuthenticated = false, user }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const dispatch = useDispatch();
   const logouthandler = () => {
     console.log('logout');
     onClose();
+    dispatch(logout());
   };
   return (
     <div>
@@ -90,11 +93,15 @@ const Header = ( {isAuthenticated=false,user}) => {
                 ) : (
                   <>
                     <Link to={'/login'}>
-                      <Button colorScheme="yellow" onClick={onClose}>Login</Button>
+                      <Button colorScheme="yellow" onClick={onClose}>
+                        Login
+                      </Button>
                     </Link>
                     <p> or </p>
                     <Link to={'/register'}>
-                      <Button colorScheme="yellow" onClick={onClose}>Sign up</Button>
+                      <Button colorScheme="yellow" onClick={onClose}>
+                        Sign up
+                      </Button>
                     </Link>
                   </>
                 )}
