@@ -18,19 +18,41 @@ import {
   VStack,
   useDisclosure,
 } from '@chakra-ui/react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { RiDeleteBin7Fill } from 'react-icons/ri';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { updateProfilePicture } from '../../redux/actions/profile';
+import { loadUser } from '../../redux/actions/user';
+import { toast } from 'react-hot-toast';
 
-const Profile = ({user}) => {
- 
+const Profile = ({ user }) => {
   const removeFromPlaylistHandler = id => {
     alert(id);
   };
- const changeImageSubmitHandler = (e,image) =>{
-e.preventDefault();
-}
+
+  const dispatch = useDispatch();
+  const changeImageSubmitHandler = async (e, image) => {
+    e.preventDefault();
+    const myForm = new FormData();
+    myForm.append('file', image);
+    await dispatch(updateProfilePicture(myForm));
+    dispatch(loadUser());
+  };
+  const { loading, message, error } = useSelector(state => state.profile);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      dispatch({ type: 'clearError' });
+    }
+
+    if (message) {
+      toast.success(message);
+      dispatch({ type: 'clearMessage' });
+    }
+  }, [dispatch, error, message]);
   const { isOpen, onClose, onOpen } = useDisclosure();
   return (
     <Container maxW="container.lg" py={'8'} minH={'95vh'}>
@@ -43,8 +65,13 @@ e.preventDefault();
         padding={'8'}
       >
         <VStack>
-          <Avatar boxSize={'48'}  src={user.avatar.url}/>
-          <Button onClick={onOpen} colorScheme="yellow" variant={'ghost'}>
+          <Avatar boxSize={'48'} src={user.avatar.url} />
+          <Button
+            isLoading={loading}
+            onClick={onOpen}
+            colorScheme="yellow"
+            variant={'ghost'}
+          >
             Change Photo
           </Button>
         </VStack>
@@ -65,7 +92,7 @@ e.preventDefault();
           {user.role !== 'admin' && (
             <HStack>
               <Text children={'Subscription'} fontWeight={'bold'} />
-              {  user.subscription && user.subscription.status === 'active' ? (
+              {user.subscription && user.subscription.status === 'active' ? (
                 <Button colorScheme={'yellow'} variant={'ghost'}>
                   {' '}
                   Cancel Subscription
@@ -121,7 +148,12 @@ e.preventDefault();
         </Stack>
       )}
 
-      <ChangePhotoBox changeImageSubmitHandler={changeImageSubmitHandler} isOpen={isOpen} onClose={onClose}  />
+      <ChangePhotoBox
+        loading={loading}
+        changeImageSubmitHandler={changeImageSubmitHandler}
+        isOpen={isOpen}
+        onClose={onClose}
+      />
     </Container>
   );
 };
@@ -129,68 +161,68 @@ e.preventDefault();
 export default Profile;
 
 function ChangePhotoBox({
-    isOpen,
-    onClose,
-    changeImageSubmitHandler,
-    loading,
-  }) {
-    const [image, setImage] = useState('');
-    const [imagePrev, setImagePrev] = useState('');
-  
-    const changeImage = e => {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-  
-      reader.readAsDataURL(file);
-  
-      reader.onloadend = () => {
-        setImagePrev(reader.result);
-        setImage(file);
-      };
+  isOpen,
+  onClose,
+  changeImageSubmitHandler,
+  loading,
+}) {
+  const [image, setImage] = useState('');
+  const [imagePrev, setImagePrev] = useState('');
+
+  const changeImage = e => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.readAsDataURL(file);
+
+    reader.onloadend = () => {
+      setImagePrev(reader.result);
+      setImage(file);
     };
-  
-    const closeHandler = () => {
-      onClose();
-      setImagePrev('');
-      setImage('');
-    };
-    return (
-      <Modal isOpen={isOpen} onClose={closeHandler}>
-        <ModalOverlay backdropFilter={'blur(10px)'} />
-        <ModalContent>
-          <ModalHeader>Change Photo</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Container>
-              <form onSubmit={e => changeImageSubmitHandler(e, image)}>
-                <VStack spacing={'8'}>
-                  {imagePrev && <Avatar src={imagePrev} boxSize={'48'} />}
-  
-                  <Input
-                    type={'file'}
-                    // css={{ '&::file-selector-button': fileUploadCss }}
-                    onChange={changeImage}
-                  />
-  
-                  <Button
-                    isLoading={loading}
-                    w="full"
-                    colorScheme={'yellow'}
-                    type="submit"
-                  >
-                    Change
-                  </Button>
-                </VStack>
-              </form>
-            </Container>
-          </ModalBody>
-  
-          <ModalFooter>
-            <Button mr="3" onClick={closeHandler}>
-              Cancel
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    );
-  }
+  };
+
+  const closeHandler = () => {
+    onClose();
+    setImagePrev('');
+    setImage('');
+  };
+  return (
+    <Modal isOpen={isOpen} onClose={closeHandler}>
+      <ModalOverlay backdropFilter={'blur(10px)'} />
+      <ModalContent>
+        <ModalHeader>Change Photo</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          <Container>
+            <form onSubmit={e => changeImageSubmitHandler(e, image)}>
+              <VStack spacing={'8'}>
+                {imagePrev && <Avatar src={imagePrev} boxSize={'48'} />}
+
+                <Input
+                  type={'file'}
+                  // css={{ '&::file-selector-button': fileUploadCss }}
+                  onChange={changeImage}
+                />
+
+                <Button
+                  isLoading={loading}
+                  w="full"
+                  colorScheme={'yellow'}
+                  type="submit"
+                >
+                  Change
+                </Button>
+              </VStack>
+            </form>
+          </Container>
+        </ModalBody>
+
+        <ModalFooter>
+          <Button mr="3" onClick={closeHandler}>
+            Cancel
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
+  );
+}
