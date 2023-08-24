@@ -41,6 +41,9 @@ const App = () => {
   );
 
   const dispatch = useDispatch();
+  // useEffect(() => {
+  //   dispatch(loadUser());
+  // }, [dispatch]);
   useEffect(() => {
     if (error) {
       toast.error(error);
@@ -53,9 +56,6 @@ const App = () => {
     }
   }, [dispatch, error, message]);
 
-  useEffect(() => {
-    dispatch(loadUser());
-  }, [dispatch]);
 
   return (
     <Router>
