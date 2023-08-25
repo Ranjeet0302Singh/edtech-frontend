@@ -82,7 +82,7 @@ const App = () => {
               path="/profile"
               element={
                 <ProtectedRoute isAuthenticated={isAuthenticated}>
-                  <Profile user={user}/>
+                  <Profile user={user} />
                 </ProtectedRoute>
               }
             />
@@ -124,8 +124,28 @@ const App = () => {
                 </ProtectedRoute>
               }
             />{' '}
-            <Route path="/forgetpassword" element={<ForgetPassword />} />
-            <Route path="/resetpassword/:token" element={<ResetPassword />} />
+            <Route
+              path="/forgetpassword"
+              element={
+                <ProtectedRoute
+                  isAuthenticated={!isAuthenticated}
+                  redirect="/profile"
+                >
+                  <ForgetPassword />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/resetpassword/:token"
+              element={
+                <ProtectedRoute
+                  isAuthenticated={!isAuthenticated}
+                  redirect="/profile"
+                >
+                  <ResetPassword />{' '}
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="/subscribe"
               element={
