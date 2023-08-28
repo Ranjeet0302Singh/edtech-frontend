@@ -1,7 +1,6 @@
 import { Container, Heading, Button, Input, VStack } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { forgetPassword } from '../../redux/actions/profile';
 import { toast } from 'react-hot-toast';
 

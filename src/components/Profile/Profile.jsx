@@ -23,16 +23,21 @@ import { useState } from 'react';
 import { RiDeleteBin7Fill } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { updateProfilePicture } from '../../redux/actions/profile';
+import {
+  removeFromPlaylist,
+  updateProfilePicture,
+} from '../../redux/actions/profile';
 import { loadUser } from '../../redux/actions/user';
 import { toast } from 'react-hot-toast';
 
 const Profile = ({ user }) => {
-  const removeFromPlaylistHandler = id => {
-    alert(id);
+  const { loading, message, error } = useSelector(state => state.profile);
+  const dispatch = useDispatch();
+  const removeFromPlaylistHandler = async id => {
+    await dispatch(removeFromPlaylist(id));
+    dispatch(loadUser());
   };
 
-  const dispatch = useDispatch();
   const changeImageSubmitHandler = async (e, image) => {
     e.preventDefault();
     const myForm = new FormData();
@@ -40,7 +45,6 @@ const Profile = ({ user }) => {
     await dispatch(updateProfilePicture(myForm));
     dispatch(loadUser());
   };
-  const { loading, message, error } = useSelector(state => state.profile);
 
   useEffect(() => {
     if (error) {
@@ -125,7 +129,7 @@ const Profile = ({ user }) => {
           p={'4'}
         >
           {user.playlist.map((element, index) => (
-            <VStack w={'48'} m={'2'} key={element.course}>
+            <VStack w={'48'} m={'2'} key={element._id}>
               <Image
                 boxSize={'full'}
                 objectFit={'contain'}
@@ -138,6 +142,7 @@ const Profile = ({ user }) => {
                   </Button>
                 </Link>
                 <Button
+                  isLoading={loading}
                   onClick={() => removeFromPlaylistHandler(element.course)}
                 >
                   <RiDeleteBin7Fill />
