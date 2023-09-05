@@ -20,10 +20,16 @@ import cursor from '../../../assets/images/cursor.png';
 import Sidebar from '../Sidebar';
 import { RiDeleteBin7Fill } from 'react-icons/ri';
 import CourseModel from './CourseModel';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { toast } from 'react-hot-toast';
+import {getAllCourses} from '../../../redux/actions/course'
 
 const AdminCourses = () => {
-  const { isOpen, onClose, onOpen } = useDisclosure();
+  const dispatch = useDispatch();
 
+  const { isOpen, onClose, onOpen } = useDisclosure();
+  const { courses, lectures } = useSelector(state => state.course);
   const courseDetailsHandler = userId => {
     onOpen();
   };
@@ -38,21 +44,20 @@ const AdminCourses = () => {
   const addLectureHandler = (e, courseId, title, description, video) => {
     e.preventDefault();
   };
-  const courses = [
-    {
-      _id: '23456789',
-      title: 'React Course',
-      category: 'Web Development',
 
-      poster: {
-        url: 'https://cdn.pixabay.com/photo/2020/05/16/18/28/dinosaur-5178645_1280.png',
-      },
-      createdBy: 'Ranjeet',
-      views: 123,
-      numOfVideo: 12,
-    },
-  ];
+  useEffect(() => {
+    // if (error) {
+    //   toast.error(error);
+    //   dispatch({ type: 'clearError' });
+    // }
 
+    // if (message) {
+    //   toast.success(message);
+    //   dispatch({ type: 'clearMessage' });
+    // }
+
+    dispatch(getAllCourses());
+  }, [dispatch]);
   return (
     <Grid
       css={{
