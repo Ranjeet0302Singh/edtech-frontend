@@ -23,7 +23,7 @@ ChartJS.register(
   Legend
 );
 
-export const LineChart = ({ views = [1,-2,3,1,5] }) => {
+export const LineChart = ({ views = [] }) => {
   const labels = getLastYearMonths();
 
   const options = {
@@ -54,7 +54,7 @@ export const LineChart = ({ views = [1,-2,3,1,5] }) => {
   return <Line options={options} data={data} />;
 };
 
-export const DoughnutChart = ({ users = [12,45] }) => {
+export const DoughnutChart = ({ users = [] }) => {
   const data = {
     labels: ['Subscribed', 'Not Subscribed'],
     datasets: [
@@ -107,4 +107,3 @@ function getLastYearMonths() {
 
   return labels;
 }
- 

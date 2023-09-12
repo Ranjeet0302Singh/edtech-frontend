@@ -15,17 +15,20 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React from 'react';
+import { useState } from 'react';
 import { RiDeleteBin7Fill } from 'react-icons/ri';
 
-const CourseModel = ({
+
+const CourseModal = ({
   isOpen,
   onClose,
   id,
   deleteButtonHandler,
-  courseTitle,
   addLectureHandler,
+  courseTitle,
   lectures = [],
+  loading,
 }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -35,23 +38,15 @@ const CourseModel = ({
   const changeVideoHandler = e => {
     const file = e.target.files[0];
     const reader = new FileReader();
+
     reader.readAsDataURL(file);
+
     reader.onloadend = () => {
       setVideoPrev(reader.result);
       setVideo(file);
     };
   };
-  const fileUploadStyle = {
-    '&::file-selector-button': {
-      cursor: 'pointer',
-      marginLeft: '-5%',
-      width: '110%',
-      border: 'none',
-      height: '100%',
-      color: 'purple',
-      backgroundColor: 'white',
-    },
-  };
+
   const handleClose = () => {
     setTitle('');
     setDescription('');
@@ -59,33 +54,43 @@ const CourseModel = ({
     setVideoPrev('');
     onClose();
   };
-
   return (
-    <Modal isOpen={isOpen}
-    size="full"
-    onClose={handleClose}
-    scrollBehavior="outside">
+    <Modal
+      isOpen={isOpen}
+      size="full"
+      onClose={handleClose}
+      scrollBehavior="outside"
+    >
       <ModalOverlay />
+
       <ModalContent>
         <ModalHeader>{courseTitle}</ModalHeader>
         <ModalCloseButton />
-        <ModalBody p={'16'}>
+
+        <ModalBody p="16">
           <Grid templateColumns={['1fr', '3fr 1fr']}>
             <Box px={['0', '16']}>
-              <Box my={'5'}>
+              <Box my="5">
                 <Heading children={courseTitle} />
-                <Heading children={`#${id}`} size={'sm'} opacity={0.4} />
+                <Heading children={`#${id}`} size="sm" opacity={0.4} />
               </Box>
-              <Heading children={'Lectures'} size={'lg'} />
-              <VideoCard
-                title="React intro"
-                description="dfasdc ACACAC oacjacsdv pofpfcsc pofdojc"
-                num={1}
-                lectureId="ertyuikjhgfghj"
-                courseId={id}
-                deleteButtonHandler={deleteButtonHandler}
-              />
+
+              <Heading children={'Lectures'} size="lg" />
+
+              {lectures.map((item, i) => (
+                <VideoCard
+                  key={i}
+                  title={item.title}
+                  description={item.description}
+                  num={i + 1}
+                  lectureId={item._id}
+                  courseId={id}
+                  deleteButtonHandler={deleteButtonHandler}
+                  loading={loading}
+                />
+              ))}
             </Box>
+
             <Box>
               <form
                 onSubmit={e =>
@@ -94,10 +99,11 @@ const CourseModel = ({
               >
                 <VStack spacing={'4'}>
                   <Heading
-                    children="Add lecture"
+                    children="Add Lecture"
                     size={'md'}
-                    textTransform={'uppercase'}
+                    textTransform="uppercase"
                   />
+
                   <Input
                     focusBorderColor="purple.300"
                     placeholder="Title"
@@ -110,24 +116,31 @@ const CourseModel = ({
                     value={description}
                     onChange={e => setDescription(e.target.value)}
                   />
+
                   <Input
-                    required
                     accept="video/mp4"
-                    type="file"
+                    required
+                    type={'file'}
                     focusBorderColor="purple.300"
-                    css={fileUploadStyle}
+                    
+                    
                     onChange={changeVideoHandler}
                   />
+
                   {videoPrev && (
                     <video
-                      src={videoPrev}
                       controlsList="nodownload"
                       controls
+                      src={videoPrev}
                     ></video>
                   )}
 
-                  <Button w={'full'} colorScheme="purple" type="submit">
-                    {' '}
+                  <Button
+                    isLoading={loading}
+                    w="full"
+                    colorScheme={'purple'}
+                    type="submit"
+                  >
                     Upload
                   </Button>
                 </VStack>
@@ -135,15 +148,17 @@ const CourseModel = ({
             </Box>
           </Grid>
         </ModalBody>
+
         <ModalFooter>
-        <Button onClick={handleClose}>Close</Button>
+          <Button onClick={handleClose}>Close</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
   );
 };
 
-export default CourseModel;
+export default CourseModal;
+
 function VideoCard({
   title,
   description,
@@ -151,11 +166,12 @@ function VideoCard({
   lectureId,
   courseId,
   deleteButtonHandler,
+  loading,
 }) {
   return (
     <Stack
       direction={['column', 'row']}
-      my={'8'}
+      my="8"
       borderRadius={'lg'}
       boxShadow={'0 0 10px rgba(107,70,193,0.5)'}
       justifyContent={['flex-start', 'space-between']}
@@ -165,7 +181,9 @@ function VideoCard({
         <Heading size={'sm'} children={`#${num} ${title}`} />
         <Text children={description} />
       </Box>
+
       <Button
+        isLoading={loading}
         color={'purple.600'}
         onClick={() => deleteButtonHandler(courseId, lectureId)}
       >
