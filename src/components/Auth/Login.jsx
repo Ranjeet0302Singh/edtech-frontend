@@ -24,7 +24,7 @@ const Login = () => {
   return (
     <Container h={'95vh'}>
       <VStack h={'full'} justifyContent={'center'} spacing={'16'}>
-        <Heading children="Welcome to Edtech" />
+        <Heading children="Welcome to EDUWEB" />
 
         <form style={{ width: '100%' }} onSubmit={submitHandler}>
           <Box my={'4'}>
